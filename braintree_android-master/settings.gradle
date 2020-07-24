@@ -1,0 +1,8 @@
+include ':Braintree'
+include ':PayPalDataCollector'
+include ':BraintreeDataCollector'
+include ':PayPalOneTouch'
+include ':Core'
+include ':ThreeDSecure'
+include ':TestUtils'
+include ':Demo'

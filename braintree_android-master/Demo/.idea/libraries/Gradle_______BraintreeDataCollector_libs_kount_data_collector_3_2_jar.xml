@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: ./../BraintreeDataCollector/libs/kount-data-collector-3.2.jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../BraintreeDataCollector/libs/kount-data-collector-3.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

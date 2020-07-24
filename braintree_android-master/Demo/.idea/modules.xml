@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1593940663/Braintree.iml" filepath="$PROJECT_DIR$/.idea/modules/1593940663/Braintree.iml" group="braintree_android-master/Braintree" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/950706892/BraintreeDataCollector.iml" filepath="$PROJECT_DIR$/.idea/modules/950706892/BraintreeDataCollector.iml" group="braintree_android-master/BraintreeDataCollector" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-761905508/Core.iml" filepath="$PROJECT_DIR$/.idea/modules/-761905508/Core.iml" group="braintree_android-master/Core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Demo.iml" filepath="$PROJECT_DIR$/.idea/modules/Demo.iml" group="braintree_android-master/Demo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/835360627/PayPalDataCollector.iml" filepath="$PROJECT_DIR$/.idea/modules/835360627/PayPalDataCollector.iml" group="braintree_android-master/PayPalDataCollector" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-877087927/PayPalOneTouch.iml" filepath="$PROJECT_DIR$/.idea/modules/-877087927/PayPalOneTouch.iml" group="braintree_android-master/PayPalOneTouch" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1354374786/TestUtils.iml" filepath="$PROJECT_DIR$/.idea/modules/1354374786/TestUtils.iml" group="braintree_android-master/TestUtils" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1451741318/ThreeDSecure.iml" filepath="$PROJECT_DIR$/.idea/modules/-1451741318/ThreeDSecure.iml" group="braintree_android-master/ThreeDSecure" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/590907634/braintree_android-master.iml" filepath="$PROJECT_DIR$/.idea/modules/590907634/braintree_android-master.iml" group="braintree_android-master" />
+    </modules>
+  </component>
+</project>

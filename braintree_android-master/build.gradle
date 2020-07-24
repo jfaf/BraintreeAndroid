@@ -1,0 +1,115 @@
+buildscript {
+    repositories {
+        jcenter()
+        google()
+        maven {
+            url = "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.2'
+        classpath 'de.marcphilipp.gradle:nexus-publish-plugin:0.4.0'
+    }
+}
+
+ext.braintreeDependency = [
+        googlePayment: 'com.braintreepayments.api:google-payment:3.3.1',
+        playServicesWallet: 'com.google.android.gms:play-services-wallet:16.0.1'
+]
+
+apply plugin: 'io.codearte.nexus-staging'
+
+allprojects {
+    repositories {
+        flatDir {
+            dirs "${rootDir}/libs"
+        }
+        google()
+        jcenter()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/releases/'
+        }
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+        maven {
+            url 'file:///tmp/maven/'
+        }
+    }
+}
+
+version = '3.13.1-SNAPSHOT'
+ext {
+    compileSdkVersion = 28
+    minSdkVersion = 21
+    targetSdkVersion = 28
+    versionCode = 118
+    versionName = version
+}
+
+def sonatypeUsername = System.env['SONATYPE_USERNAME']
+def sonatypePassword = System.env['SONATYPE_PASSWORD']
+
+subprojects {
+    apply plugin: 'signing'
+    apply plugin: 'maven-publish'
+    apply plugin: 'de.marcphilipp.nexus-publish'
+
+    signing {
+        required {
+            !version.endsWith("SNAPSHOT") && !version.endsWith("DEVELOPMENT")
+        }
+        sign publishing.publications
+    }
+
+    nexusStaging {
+        stagingProfileId = 'd2424106a9f1f'
+        username = sonatypeUsername
+        password = sonatypePassword
+    }
+
+    nexusPublishing {
+        repositories {
+            sonatype {
+                username = sonatypeUsername
+                password = sonatypePassword
+            }
+        }
+    }
+
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+
+                    pom {
+                        packaging = 'aar'
+                        url = 'https://github.com/braintree/braintree_android'
+
+                        scm {
+                            url = 'scm:git@github.com:braintree/braintree_android.git'
+                            connection = 'scm:git@github.com:braintree/braintree_android.git'
+                            developerConnection = 'scm:git@github.com:braintree/braintree_android.git'
+                        }
+
+                        developers {
+                            developer {
+                                id = 'devs'
+                                name = 'Braintree Payments'
+                            }
+                        }
+
+                        licenses {
+                            license {
+                                name = 'MIT'
+                                url = 'http://opensource.org/licenses/MIT'
+                                distribution = 'repo'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

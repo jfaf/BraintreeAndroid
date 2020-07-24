@@ -1,0 +1,152 @@
+apply plugin: 'com.android.library'
+
+def DEVELOPMENT_URL = System.properties['DEVELOPMENT_URL'] ?: '"http://10.0.2.2:3000/"';
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+
+        consumerProguardFiles 'proguard.pro'
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            all {
+                jvmArgs '-noverify'
+            }
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+        exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+    }
+
+    lintOptions {
+        textReport true
+        textOutput 'stdout'
+    }
+
+    sourceSets {
+        String sharedTestDir = 'src/sharedTest/java'
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+        test {
+            java.srcDir sharedTestDir
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.0.1'
+    compileOnly(braintreeDependency.playServicesWallet) {
+        exclude module: 'support-v4'
+    }
+    compileOnly project(':BraintreeDataCollector')
+    compileOnly project(':ThreeDSecure')
+
+    api braintreeDependency.googlePayment
+    api project(':Core')
+    api project(':PayPalOneTouch')
+
+    androidTestImplementation braintreeDependency.playServicesWallet
+    androidTestImplementation project(':BraintreeDataCollector')
+    androidTestImplementation project(':ThreeDSecure')
+    androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation project(':TestUtils')
+
+    testImplementation braintreeDependency.playServicesWallet
+    testImplementation project(':BraintreeDataCollector')
+    testImplementation 'org.robolectric:robolectric:4.1'
+    testImplementation 'org.powermock:powermock-module-junit4:1.6.6'
+    testImplementation 'org.powermock:powermock-module-junit4-rule:1.6.6'
+    testImplementation 'org.powermock:powermock-api-mockito:1.6.6'
+    testImplementation 'org.powermock:powermock-classloading-xstream:1.6.6'
+    testImplementation 'org.skyscreamer:jsonassert:1.4.0'
+    testImplementation project(':TestUtils')
+    testImplementation project(':ThreeDSecure')
+}
+
+android.buildTypes.each { type ->
+    type.buildConfigField 'String', 'DEVELOPMENT_URL', DEVELOPMENT_URL
+}
+
+task runAllTests {
+    /*
+     * Empty task to run via command line Rakefile or ci.sh to indicate that tests that depend on
+     * setting up external services (like the test invalid https server) are set up correctly.
+     * Otherwise, these tests will be skipped
+     */
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    def RUN_ALL_TESTS = taskGraph.hasTask(':Braintree:runAllTests')
+    android.buildTypes.debug.buildConfigField('boolean', 'RUN_ALL_TESTS', '' + RUN_ALL_TESTS)
+}
+
+/* maven deploy + signing */
+task javadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    failOnError false
+
+    // Used to exclude docstrings from public site
+    exclude "com/braintreepayments/api/PayPalTwoFactorAuth.java"
+    exclude "com/braintreepayments/api/PayPalTwoFactorAuthSharedPreferences.java"
+    exclude "com/braintreepayments/api/model/PayPalTwoFactorAuthRequest.java"
+    exclude "com/braintreepayments/api/model/PayPalTwoFactorAuthResponse.java"
+    exclude "com/braintreepayments/api/interfaces/PayPalTwoFactorAuthCallback.java"
+    exclude "com/braintreepayments/api/PreferredPaymentMethods.java"
+    exclude "com/braintreepayments/api/models/PreferredPaymentMethodsResult.java"
+    exclude "com/braintreepayments/api/interfaces/PreferredPaymentMethodsListener.java"
+}
+
+task javadocsJar(type: Jar, dependsOn: javadocs) {
+    classifier = 'javadoc'
+    from javadocs.destinationDir
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives javadocsJar
+    archives sourcesJar
+}
+
+nexusStaging {
+    packageGroup = "com.braintreepayments"
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+
+                groupId = 'com.braintreepayments.api'
+                artifactId = 'braintree'
+                version = "${android.defaultConfig.versionName}"
+
+                pom {
+                    name = 'braintree'
+                    description = 'This is Braintree\'s Android SDK. Integrate this library to accept payments in your Android app.'
+                }
+            }
+        }
+    }
+}

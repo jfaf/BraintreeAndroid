@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.visa.checkout:visacheckout-android-sdk:6.6.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b3402e13a07f58a8216f0a19390af451/jetified-visacheckout-android-sdk-6.6.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b3402e13a07f58a8216f0a19390af451/jetified-visacheckout-android-sdk-6.6.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
