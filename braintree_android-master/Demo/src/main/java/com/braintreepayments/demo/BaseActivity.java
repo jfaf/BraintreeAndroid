@@ -29,8 +29,6 @@ import com.braintreepayments.api.internal.SignatureVerificationOverrides;
 import com.braintreepayments.api.models.BinData;
 import com.braintreepayments.api.models.BraintreePaymentResult;
 import com.braintreepayments.api.models.PaymentMethodNonce;
-import com.braintreepayments.demo.models.ClientToken;
-import com.braintreepayments.demo.models.PayPalUAT;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.paypal.android.sdk.onetouch.core.PayPalOneTouchCore;
