@@ -157,8 +157,8 @@ public class MainActivity extends BaseActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == DROP_IN_REQUEST) {
                 DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
-                postNonceToServer(result.getPaymentMethodNonce().getNonce());
                 displayNonce(result.getPaymentMethodNonce(), result.getDeviceData());
+                postNonceToServer(result.getPaymentMethodNonce().getNonce());
 
             } else {
                 Parcelable returnedData = data.getParcelableExtra(EXTRA_PAYMENT_RESULT);
@@ -189,10 +189,11 @@ public class MainActivity extends BaseActivity {
 
     private void displayNonce(PaymentMethodNonce paymentMethodNonce, String deviceData) {
         mNonce = paymentMethodNonce;
-        Log.d("KANYE", mNonce.getNonce());
+        Log.d("displayNonce", mNonce.getNonce());
 
         mNonceIcon.setImageResource(PaymentMethodType.forType(mNonce).getDrawable());
         mNonceIcon.setVisibility(VISIBLE);
+
 
         mNonceString.setText(getString(R.string.nonce_placeholder, mNonce.getNonce()));
         mNonceString.setVisibility(VISIBLE);

@@ -159,17 +159,20 @@
             <TextView
                 android:id="@+id/nonce"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="test" />
 
             <TextView
                 android:id="@+id/nonce_details"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="test" />
 
             <TextView
                 android:id="@+id/device_data"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="test" />
 
         </LinearLayout>
 

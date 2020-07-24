@@ -7,9 +7,6 @@ import android.os.StrictMode;
 import android.os.strictmode.Violation;
 import android.util.Log;
 
-import com.braintreepayments.demo.internal.ApiClient;
-import com.braintreepayments.demo.internal.ApiClientRequestInterceptor;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,7 +15,6 @@ import retrofit.RestAdapter;
 
 public class DemoApplication extends Application implements UncaughtExceptionHandler {
 
-    private static ApiClient sApiClient;
     private static ExecutorService sExecutor;
 
     private Thread.UncaughtExceptionHandler mDefaultExceptionHandler;
@@ -101,19 +97,4 @@ public class DemoApplication extends Application implements UncaughtExceptionHan
         return false;
     }
 
-    static ApiClient getApiClient(Context context) {
-        if (sApiClient == null) {
-            sApiClient = new RestAdapter.Builder()
-                    .setEndpoint(Settings.getEnvironmentUrl(context))
-                    .setRequestInterceptor(new ApiClientRequestInterceptor())
-                    .build()
-                    .create(ApiClient.class);
-        }
-
-        return sApiClient;
-    }
-
-    static void resetApiClient() {
-        sApiClient = null;
-    }
 }
