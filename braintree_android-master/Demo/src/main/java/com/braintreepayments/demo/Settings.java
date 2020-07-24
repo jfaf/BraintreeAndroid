@@ -46,7 +46,6 @@ public class Settings {
                 .putString(ENVIRONMENT, environment)
                 .apply();
 
-        DemoApplication.resetApiClient();
     }
 
     public static String getSandboxUrl() {

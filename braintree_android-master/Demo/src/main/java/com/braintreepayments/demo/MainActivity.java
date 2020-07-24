@@ -123,6 +123,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String clientToken) {
                  mclientToken = clientToken;
+                 enableButtons(true);
             }
         });
 
@@ -148,20 +149,6 @@ public class MainActivity extends BaseActivity {
         startActivityForResult(intent, PAYPAL_REQUEST);
     }
 
-    public void launchPayPalTwoFactorAuth(View v) {
-        Intent intent = new Intent(this, PayPalTwoFactorAuthActivity.class);
-        startActivityForResult(intent, PAYPAL_TWO_FACTOR_REQUEST);
-    }
-
-
-    public void createTransaction(View v) {
-        Intent intent = new Intent(this, CreateTransactionActivity.class)
-                .putExtra(CreateTransactionActivity.EXTRA_PAYMENT_METHOD_NONCE, mNonce);
-        startActivity(intent);
-
-        mCreateTransactionButton.setEnabled(false);
-        clearNonce();
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -264,7 +251,6 @@ public class MainActivity extends BaseActivity {
 
                         Log.d("postNonceToServer", "onFailure: " + responseBody);
                     }
-                    // Your implementation here
                 }
         );
     }
