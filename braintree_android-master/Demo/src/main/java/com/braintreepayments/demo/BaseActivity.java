@@ -259,21 +259,4 @@ public abstract class BaseActivity extends AppCompatActivity implements OnReques
                 "         - Product Id: " + binData.getProductId();
     }
 
-    private void requestClientTokenFromServer(){
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("https://thecocktailbike.com/generate-client-token", new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("Client token request", "onFailure: " + statusCode);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String clientToken) {
-                mAuthorization = clientToken;
-                onAuthorizationFetched();
-            }
-        });
-
-    }
 }
